@@ -1,0 +1,225 @@
+{
+  "info": {
+    "name": "AI Interview Screener (Groq)",
+    "description": "Collection for testing the AI Interview Screener API with Groq",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": [""]
+        },
+        "description": "Check if the API is running and Groq is connected"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate Answer - Excellent",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidate_says\": \"I would use a hash table for O(1) lookup time. Hash tables provide constant-time average case performance for insertions and lookups, making them ideal for caching and fast data retrieval. However, they have O(n) worst-case complexity and don't maintain order.\",\n  \"question_context\": \"What data structure would you use for a cache implementation?\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/evaluate-answer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["evaluate-answer"]
+        },
+        "description": "Test with a strong technical answer"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate Answer - Average",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidate_says\": \"I'd use a dictionary because it's fast\",\n  \"question_context\": \"What data structure would you use for a cache implementation?\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/evaluate-answer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["evaluate-answer"]
+        },
+        "description": "Test with a weak answer"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate Answer - Poor",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidate_says\": \"Arrays are good\",\n  \"question_context\": \"What data structure would you use for a cache implementation?\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/evaluate-answer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["evaluate-answer"]
+        },
+        "description": "Test with a very poor answer"
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate Answer - No Context",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidate_says\": \"Python is great for data science because of libraries like pandas, numpy, scikit-learn, and matplotlib. It has a simple syntax and strong community support.\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/evaluate-answer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["evaluate-answer"]
+        },
+        "description": "Test evaluation without question context"
+      },
+      "response": []
+    },
+    {
+      "name": "Rank 4 Candidates",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidates\": [\n    {\n      \"candidate_id\": \"Alice_001\",\n      \"answer\": \"React is component-based\",\n      \"question_context\": \"Why would you choose React for a large-scale application?\"\n    },\n    {\n      \"candidate_id\": \"Bob_002\",\n      \"answer\": \"React offers component reusability, virtual DOM for performance optimization, a rich ecosystem with tools like Redux for state management, strong community support, and it scales well for large applications with features like code splitting and lazy loading.\",\n      \"question_context\": \"Why would you choose React for a large-scale application?\"\n    },\n    {\n      \"candidate_id\": \"Charlie_003\",\n      \"answer\": \"React is popular and has many libraries. It's used by Facebook and other big companies.\",\n      \"question_context\": \"Why would you choose React for a large-scale application?\"\n    },\n    {\n      \"candidate_id\": \"Diana_004\",\n      \"answer\": \"I don't know much about React\",\n      \"question_context\": \"Why would you choose React for a large-scale application?\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/rank-candidates",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["rank-candidates"]
+        },
+        "description": "Rank multiple candidates from best to worst"
+      },
+      "response": []
+    },
+    {
+      "name": "Rank Candidates - Database Question",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidates\": [\n    {\n      \"candidate_id\": \"C001\",\n      \"answer\": \"Use SQL\",\n      \"question_context\": \"How would you design a database for an e-commerce platform?\"\n    },\n    {\n      \"candidate_id\": \"C002\",\n      \"answer\": \"I would use a relational database with normalized tables for users, products, orders, and order_items. Add indexes on frequently queried fields like user_id and product_id. Implement foreign key constraints for data integrity.\",\n      \"question_context\": \"How would you design a database for an e-commerce platform?\"\n    },\n    {\n      \"candidate_id\": \"C003\",\n      \"answer\": \"A database with tables for products and customers\",\n      \"question_context\": \"How would you design a database for an e-commerce platform?\"\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/rank-candidates",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["rank-candidates"]
+        },
+        "description": "Test ranking with database design question"
+      },
+      "response": []
+    },
+    {
+      "name": "Error - Empty Answer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidate_says\": \"\",\n  \"question_context\": \"What is REST API?\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/evaluate-answer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["evaluate-answer"]
+        },
+        "description": "Test error handling for empty answer"
+      },
+      "response": []
+    },
+    {
+      "name": "Error - Empty Candidates",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"candidates\": []\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/rank-candidates",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["rank-candidates"]
+        },
+        "description": "Test error handling for empty candidates list"
+      },
+      "response": []
+    }
+  ]
+}
